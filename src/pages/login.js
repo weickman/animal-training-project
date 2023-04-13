@@ -8,21 +8,19 @@ const fetcher = async (url) => {
 }
 
 export default function Login() {
-    const password = 1121
-    const firstName = "pikachu"
-    const lastName = "bob"
-    const email = "momdaodjs"
-
+    const password = "ss"
+    const email = "ss"
    
     const { data, error, isLoading, isValidating } = useSWR(`/api/user/login/${email}?password=${password}`, fetcher)
+    
     if (isLoading) return <div>Loading</div>
     if (!data) return (
         <>
             <Link href="/"><h1>Better PokeAPI</h1></Link>
             <h2>Must Implement your API. Data is empty</h2>
         </>
-    )
-    let { experience } = data
+    ) 
+    
 
     return (
         <>
@@ -34,7 +32,7 @@ export default function Login() {
                 <h2>Validating</h2>
             ) : (
                 <>
-                    <h2> { experience } </h2>
+                    <h2> {data} </h2>
                 </>
             )}
             

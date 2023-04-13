@@ -25,12 +25,7 @@ export default function Home() {
 
       <Link href="/"><h1> Animal Training </h1></Link>
       <Link href="/login">Login </Link>
-      <Link href="/name">Get a Pokemon by name</Link>
-      <Link href="/types">Get a Pokemon by type</Link>
-      <Link href="/evolve">Get a Pokemon's next evolution stage</Link>
-      <Link href="/exp">Get a Pokemon's Experience</Link>
-      <Link href="/battle">Battle two Pokemon</Link>
-      <Link href="/catch">Try to catch a Pokemon</Link>
+      
       </Box>
     </div>
   )
