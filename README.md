@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# Project 1 - The Better PokeAPI™️
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Project Link: https://youtu.be/mQViK__f2Fo
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+Create a backend that abstracts some aspects and combines features of the PokeAPI. For instance, an endpoint that just gets the name, image, and type of a specific Pokemon.
 
-### `npm start`
+## Submission
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Send the link to the repo containing your code in the #gt-bootcamp-dev Slack channel (there will be a thread for this later)
+- Create a less than 3 minute video walkthrough of your API
+- **Due: 2/28/2023 start of lecture**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Requirements
 
-### `npm test`
+- Must accurately represent the demo
+- Must use Next.js
+- Must have specified endpoints
+- Must use the free PokeAPI
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### API Endpoints
 
-### `npm run build`
+**Subject to change -> may add more endpoints if ya'll think this is too easy**.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+All API endpoints should exist in the `pages/api` folder of your Next.js project. This means all api routes will be prefixed with `/api` (helpful for testing).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```http
+GET /
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- returns the name, sprite, and type of random Pokemon
 
-### `npm run eject`
+```http
+GET /pokemon/:name
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- returns the name, sprite, and type of a certain Pokemon
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```http
+GET /types/:type
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- returns a list of Pokemon of this type
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```http
+GET /evolve/:name
+```
 
-## Learn More
+- returns the next evolution step for a specified Pokemon. If the Pokemon is fully evolved, return the current evolution stage
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```http
+GET /experience/:name?level={level_num}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- calculates and returns the experience a Pokemon has based on its name and level.
+- level is passed into the the request as a **query** parameter
+- See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Experience) for info on growth rates and experience
 
-### Code Splitting
+```http
+POST /battle
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Body of the request
+  - `pokemon1` - the name of the first Pokemon to be battled (String)
+  - `pokemon2` - the name of the second Pokemon to be battled (String)
+- `pokemon1` and `pokemon2` are name strings sent in the **body** of the post request. Returns the pokemon with the higher base stat.
 
-### Analyzing the Bundle Size
+```http
+POST /catch
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Returns whether a Pokemon is caught based on the its HP. Assume that a regular Poke Ball is used. Assume that the capture method follows the algorithms in Generation I.
+- Capture Algorithm (Generation I)
+  - Generate a random integer between $[1, 255]$ called $N$
+  - Generate a random integer between $[1, 255]$ called $BALL$
+  - Generate a random integer between $[1, HP_{max}]$ called $HP_{current}$
+  - Calculate $f$ based on the formula $f = \frac{(HP_{max} \times 255 \times 4)}{(HP_{current} \times BALL)}$
+  - If $f \ge N$, then the Pokemon is **caught**
+  - Otherwise, the Pokemon **breaks free**
+- Body of the request
+  - `pokemon` - name of the pokemon (String)
+- Challenge (Optional): Allow for different Poke Ball types to be sent in the body of the request. Use the capture algorithm for a different Generation (see [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Catch_rate))
 
-### Making a Progressive Web App
+## Testing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The frontend part of the application has hard-coded test cases just to allow you to get a general sense of how your API should be built. I recommend testing and debugging your API with the tool Postman that I had everyone download.
 
-### Advanced Configuration
+Also, if you are wondering what response should be returned, pay close attention to how the frontend code is written. For instance, if I destructure a variable `types` from the data object like so:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```js
+let { types } = data;
+```
 
-### Deployment
+The JSON response should contain the key `types`. If I then map over the variable `types` like so:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```jsx
+types.map((type) => <span>{type}</span>);
+```
 
-### `npm run build` fails to minify
+Then, your API implementation should return `types` as an array of strings.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Go above & beyond
+
+- Feel free to edit and enhance the UI (though the overall layout of the app should align with the requirements)
