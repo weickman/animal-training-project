@@ -7,12 +7,11 @@ import {useRouter} from "next/router";
 import animal from '../../server/mongodb/models/animal';
 
 
- const checkLogin = async (userPassword, userEmail, animalName, userDate, userHours, userDescription) => {
+ const checkLogin = async (userEmail, animalName, userDate, userHours, userDescription) => {
 
         const email = userEmail
-        return await axios.post('/api/user/login', {
+        return await axios.post('/api/user/object', {
             "email": email,
-            "password": userPassword
           }).then((response) => {
             checkAnimal(userDate, userHours, response.data, animalName, userDescription)
           }).catch(function (e) {
@@ -65,7 +64,6 @@ import animal from '../../server/mongodb/models/animal';
 
     const [animalName, setAnimalName] = useState('');
     const [userEmail, setEmail] = useState('');
-    const [userPassword, setPassword] = useState('');
     const [userDate, setDate] = useState('');
     const [userHours, setHours] = useState('');
     const [userDescription, setUserDescription] = useState('');
@@ -89,11 +87,6 @@ import animal from '../../server/mongodb/models/animal';
         }}
         />
        
-        <TextField id="outlined-basic" label="Password" variant="outlined" type="text"
-                    name="userPassword" fullWidth={true} value={userPassword} onChange={(event) => {
-            setPassword(event.target.value)
-        }}
-        />
 
         <TextField id="outlined-basic" label="Date" variant="outlined" type="text"
                     name="date" fullWidth={true} value={userDate} onChange={(event) => {
@@ -107,14 +100,14 @@ import animal from '../../server/mongodb/models/animal';
         }}
         />
 
-        <TextField id="outlined-basic" label="dDescription" variant="outlined" type="text"
+        <TextField id="outlined-basic" label="Description" variant="outlined" type="text"
                     name="Description" fullWidth={true} value={userDescription} onChange={(event) => {
             setUserDescription(event.target.value)
         }}
         />
         {}
             <Button fullWidth={true} onClick={() => {
-                    return checkLogin(userPassword, userEmail, animalName, userDate, userHours, userDescription);
+                    return checkLogin(userEmail, animalName, userDate, userHours, userDescription);
                     
                 }} variant="contained">Add Training</Button>
                 </Box>

@@ -12,7 +12,6 @@ export default async function handler(req, res) {
         console.log(req.body)
         console.log(req.body.email)
         let email  = req.body.email
-        let password = req.body.password
         const userEmail = {email: email}
         const attemp = await User.findOne(userEmail)
         // console.log(attemp)
@@ -21,25 +20,11 @@ export default async function handler(req, res) {
             await closeDB()
             return res.status(403).send("Invalid Email")
         } else {
-            const hashedPass = attemp.password 
             await closeDB()
-            const hashedPassword = await new Promise((resolve, reject) => {
-                bcrypt.compare(password, hashedPass, function(err, result) {
-                        if (result) {
-                        console.log("success")
-                        return res.status(200).send(attemp._id)
-                       } else {
-                        console.log("here")
-                        return res.status(403).send("User information invalid")
-                    }
-                    }); 
-              })
-              return hashedPassword;
-        } 
-      
 
-    
-        
+            console.log("success")
+            return res.status(200).send(attemp._id)
+        }
 
     } catch (e) {
         return res.status(500).json({success: false, message: e.message})

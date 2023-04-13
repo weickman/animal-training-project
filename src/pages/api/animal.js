@@ -10,9 +10,8 @@ export default async function handler(req, res) {
         try {
             checkMethod(["POST"], req.method)
             console.log(req.body)
-            console.log("here")
             await createAnimal(req.body)
-            return res.status(201).json({success: true, message: "Successfully created an animal"})
+            return res.status(200).send("Successfully created an animal")
         } catch (e) {
             return res.status(500).json({success: false, message: e.message})
         }
