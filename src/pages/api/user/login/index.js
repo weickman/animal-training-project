@@ -23,15 +23,18 @@ export default async function handler(req, res) {
         } else {
             const hashedPass = attemp.password 
             await closeDB()
-            bcrypt.compare(password, hashedPass, function(err, result) {
-                    if (result) {
-                    console.log("success")
-                    return res.status(200).send("Sucessfully logged user in")
-                   } else {
-                    return res.status(403).send("User information invalid")
-                }
-                }); 
-
+            const hashedPassword = await new Promise((resolve, reject) => {
+                bcrypt.compare(password, hashedPass, function(err, result) {
+                        if (result) {
+                        console.log("success")
+                        return res.status(200).send("Sucessfully logged user in")
+                       } else {
+                        console.log("here")
+                        return res.status(403).send("User information invalid")
+                    }
+                    }); 
+              })
+              return hashedPassword;
         } 
       
 

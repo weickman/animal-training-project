@@ -8,12 +8,12 @@ import {Box, Button, TextareaAutosize, TextField} from "@mui/material";
 
 
 
- const checkLogin = async (userEmail, userPassword) => {
+ const checkRegister = async (userEmail, userPassword) => {
 
         const password = userEmail
         const email = userPassword
         let data = ""
-        return await axios.post('/api/user/login', {
+        return await axios.post('/api/user/register', {
             email: email,
             password: password
           }).then((response) => {
@@ -37,7 +37,7 @@ import {Box, Button, TextareaAutosize, TextField} from "@mui/material";
         )
             };
     
-    export default function Login() {
+    export default function Register() {
     
 
     const [userEmail, setEmail] = useState('');
@@ -48,7 +48,7 @@ import {Box, Button, TextareaAutosize, TextField} from "@mui/material";
         <div style= {{display: 'flex', justifyContent: "center", textAlign: "center", width: "100%"}}>
         <Box sx={{display: 'flex', flexDirection: 'column', maxWidth: '600px', rowGap: '15px', textAlign: "center"}}>
             <h1 style={{marginTop: "150", width: "100%", textAlign: "center"}}>
-                Login Page
+                Register Page
                 </h1>
                 <p style={{marginTop: "1px", width: "100%"}}>
                 </p>
@@ -68,9 +68,9 @@ import {Box, Button, TextareaAutosize, TextField} from "@mui/material";
                 </p>
         {}
             <Button fullWidth={true} onClick={() => {
-                    return checkLogin(userPassword, userEmail);
+                    return checkRegister(userPassword, userEmail);
                     
-                }} variant="contained">Login</Button>
+                }} variant="contained">Register</Button>
                 </Box>
             </div>
                                                 

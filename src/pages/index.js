@@ -1,8 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { Button, Box } from '@mui/material';
 
 export default function Home() {
