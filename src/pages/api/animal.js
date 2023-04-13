@@ -9,11 +9,14 @@ export default async function handler(req, res) {
     if(verifyUser(req, res)) {
         try {
             checkMethod(["POST"], req.method)
+            console.log(req.body)
+            console.log("here")
             await createAnimal(req.body)
+            return res.status(201).json({success: true, message: "Successfully created an animal"})
         } catch (e) {
             return res.status(500).json({success: false, message: e.message})
         }
-        return res.status(201).json({success: true, message: "Successfully created an animal"})
+       
     } else {
         return res.status(403).send("Please login")
     }

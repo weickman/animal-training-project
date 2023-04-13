@@ -1,6 +1,6 @@
-import checkMethod from "../../../../../server/utils/checkMethod"
+// import checkMethod from "../../../../../../../server/utils/checkMethod"
 import {connectDB, closeDB} from "../../../../../server/utils/db"
-import User from "../../../../../server/mongodb/models/user"
+import Animal from "../../../../../server/mongodb/models/animal"
 import bcrypt from "bcryptjs"
 
 
@@ -8,33 +8,26 @@ export default async function handler(req, res) {
     // checkMethod(["POST"], req.method)
     await connectDB()
     try {
-        console.log(req.body)
-        console.log(req.body.email)
-        let email  = req.body.email
-        let password = req.body.password
-        const userEmail = {email: email}
-        const attemp = await User.findOne(userEmail)
+        let owner  = req.body.userID
+        let name = req.body.animalName
+        const animalS = {
+            "name": name,
+            "owner": owner
+        }
+        console.log(animalS)
+        const attemp = await Animal.findOne(animalS)
+        console.log(attemp)
         // console.log(attemp)
         if (attemp == null) {
-            console.log("invalid user")
+            console.log("animallogin: invalid user")
             await closeDB()
             return res.status(403).send("Invalid Email")
         } else {
             const hashedPass = attemp.password 
             await closeDB()
-            const hashedPassword = await new Promise((resolve, reject) => {
-                bcrypt.compare(password, hashedPass, function(err, result) {
-                        if (result) {
-                        console.log("success")
-                        return res.status(200).send(attemp._id)
-                       } else {
-                        console.log("here")
-                        return res.status(403).send("User information invalid")
-                    }
-                    }); 
-              })
-              return hashedPassword;
-        } 
+            return res.status(200).send(attemp._id)
+        
+        }  
       
 
     
