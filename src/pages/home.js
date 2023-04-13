@@ -24,6 +24,7 @@ export default function Home() {
       <Link href="/"><h1 style={{marginTop: "150px", width: "100%", textAlign: "center"}}> Home Page </h1></Link>
       <Link href="/animal"> <button> Create Animal </button> </Link>
       <Link href="/training"> <button> Add Training Log </button> </Link>
+      <Link href="/admin"> <button> Admin </button> </Link>
       
       </Box>
     </div>
