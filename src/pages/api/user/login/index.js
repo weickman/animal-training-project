@@ -8,25 +8,35 @@ export default async function handler(req, res) {
     // checkMethod(["POST"], req.method)
     await connectDB()
     try {
-
-        const { email } = req.query
-        const { password } = req.query
+        console.log(req.body)
+        console.log(req.body.email)
+        let email  = req.body.email
+        let password = req.body.password
+        
         const userEmail = {email: email}
         const attemp = await User.findOne(userEmail)
         // console.log(attemp)
         if (attemp == null) {
+            console.log("invalid user")
             await closeDB()
-            return res.status(200).send("Invalid Username")
+            return res.status(200).send("Invalid Email")
         } else {
             const hashedPass = attemp.password 
             await closeDB()
             bcrypt.compare(password, hashedPass, function(err, result) {
                     if (result) {
+                    console.log("success")
                     return res.status(200).send("Sucessfully logged user in")
-                   } 
+                   } else {
+                    return res.status(403).send("User information invalid")
+                }
                 }); 
-        }
-        return res.status(403).send("User information invalid")
+
+        } 
+      
+
+    
+        
 
     } catch (e) {
         return res.status(500).json({success: false, message: e.message})
