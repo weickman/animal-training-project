@@ -7,9 +7,6 @@ export default async function createUser(userData) {
     try {
         console.log("Inside of try")
         const salt = await bcrypt.genSalt(10)
-        if(User.findOne(userData.email).count() > 0) {
-            throw new Error("Email already in use")
-        }
         userData.password = await bcrypt.hash(userData.password, salt)
         const user = new User(userData)
         console.log(user)

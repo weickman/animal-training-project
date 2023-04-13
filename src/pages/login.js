@@ -3,23 +3,23 @@ import useSWR from 'swr'
 import Link from 'next/link'
 import React, {useState} from "react";
 import {Box, Button, TextareaAutosize, TextField} from "@mui/material";
+import {useRouter} from "next/router";
 
 
 
 
+ const checkLogin = async (userEmail, userPassword, router) => {
 
- const checkLogin = async (userEmail, userPassword) => {
-
-        const password = userEmail
+    const password = userEmail
         const email = userPassword
         let data = ""
         return await axios.post('/api/user/login', {
             email: email,
             password: password
           }).then((response) => {
-            alert(response.data)
+            router.push('/home')
           }).catch(function (e) {
-            alert("User information invalid")
+            alert(e.response.data)
           });
 
     
@@ -42,12 +42,12 @@ import {Box, Button, TextareaAutosize, TextField} from "@mui/material";
 
     const [userEmail, setEmail] = useState('');
     const [userPassword, setPassword] = useState('');
-
-
+    const router = useRouter()
+    
     return (
         <div style= {{display: 'flex', justifyContent: "center", textAlign: "center", width: "100%"}}>
         <Box sx={{display: 'flex', flexDirection: 'column', maxWidth: '600px', rowGap: '15px', textAlign: "center"}}>
-            <h1 style={{marginTop: "150", width: "100%", textAlign: "center"}}>
+            <h1 style={{marginTop: "150px", width: "100%", textAlign: "center"}}>
                 Login Page
                 </h1>
                 <p style={{marginTop: "1px", width: "100%"}}>
@@ -68,7 +68,7 @@ import {Box, Button, TextareaAutosize, TextField} from "@mui/material";
                 </p>
         {}
             <Button fullWidth={true} onClick={() => {
-                    return checkLogin(userPassword, userEmail);
+                    return checkLogin(userPassword, userEmail, router);
                     
                 }} variant="contained">Login</Button>
                 </Box>

@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         if (attemp == null) {
             console.log("invalid user")
             await closeDB()
-            return res.status(200).send("Invalid Email")
+            return res.status(403).send("Invalid Email")
         } else {
             const hashedPass = attemp.password 
             await closeDB()
